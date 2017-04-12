@@ -1,0 +1,25 @@
+{
+  "name": "apiko-cli",
+  "version": "1.0.0",
+  "description": "Apiko command line tool, which makes things easy as pie.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "apiko",
+    "REST",
+    "API",
+    "server",
+    "tool"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apiko-rest-api/apiko-cli.git"
+  },
+  "author": "The Apiko Tribe",
+  "license": "MIT",
+  "dependencies": {
+    "command-exists": "^1.2.2"
+  }
+}
