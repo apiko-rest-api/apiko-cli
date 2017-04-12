@@ -1,5 +1,6 @@
+#!/usr/bin/env node
 const fs = require('fs')
-const spawn = require('child_process').spawn
+const exec = require('child_process').exec
 const commandExists = require('command-exists').sync
 const path = require('path')
 
@@ -18,15 +19,8 @@ let cli = {
         return false
       }
 
-      let cmd = spawn('git', ['clone', 'https://github.com/kasp1/apiko-start.git', process.argv[3]])
-
-      //cmd.stdout.on('data', (data) => {
-      //  console.log(data.toString())
-      //})
-
-      cmd.stderr.on('data', (data) => {
-        console.log(data.toString().replace(/\r|\n|\r/g, ''))
-      })
+      let cmd = exec('git clone https://github.com/kasp1/apiko-start.git ' + process.argv[3])
+      cmd.stderr.pipe(process.stderr)
 
       return cmd
     }
@@ -46,15 +40,8 @@ let cli = {
             process.chdir(process.cwd() + path.sep + process.argv[3])
 
             // npm install
-            let cmd = spawn('npm', ['install'])
-
-            //cmd.stdout.on('data', (data) => {
-            //  console.log(data.toString())
-            //})
-
-            cmd.stderr.on('data', (data) => {
-              console.log(data.toString().replace(/\r|\n|\r/g, ''))
-            })
+            let cmd = exec('npm install')
+            cmd.stderr.pipe(process.stderr)
 
             cmd.on('close', (code) => {
               cli.run.handler('dev')
@@ -76,15 +63,9 @@ let cli = {
         }
       }
 
-      let cmd = spawn('npm', ['run', env])
-
-      cmd.stdout.on('data', (data) => {
-        console.log(data.toString().replace(/\r|\n|\r/, ''))
-      })
-
-      cmd.stderr.on('data', (data) => {
-        console.log(data.toString().replace(/\r|\n|\r/, ''))
-      })
+      let cmd = exec('npm run ' + env)
+      cmd.stdout.pipe(process.stdout)
+      cmd.stderr.pipe(process.stderr)
     }
   },
 
