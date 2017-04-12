@@ -1,6 +1,6 @@
 {
   "name": "apiko-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Apiko command line tool, which makes things easy as pie.",
   "main": "index.js",
   "scripts": {
