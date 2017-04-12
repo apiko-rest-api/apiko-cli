@@ -17,9 +17,17 @@
     "type": "git",
     "url": "git+https://github.com/apiko-rest-api/apiko-cli.git"
   },
+  "homepage": "https://apiko-rest-api.github.io/",
   "author": "The Apiko Tribe",
   "license": "MIT",
   "dependencies": {
     "command-exists": "^1.2.2"
+  },
+  "bugs": {
+    "url": "https://github.com/apiko-rest-api/apiko-cli/issues",
+    "email": "info@mkcorp.cz"
+  },
+  "bin": {
+    "apiko": "./index.js"
   }
 }
