@@ -9,7 +9,9 @@ Apiko is a REST API tool that helps you to setup a backend server as easily as p
 
 You only have to code where it's ultimately necessary. You can even build regular apps without coding a single line.
 
-# apiko-cli
+Please see https://apiko-rest-api.github.io/
+
+## apiko-cli
 Apiko command line tool, which makes things easy as pie.
 
 Please see https://apiko-rest-api.github.io/ for instructions.
