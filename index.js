@@ -8,31 +8,33 @@ let cli = {
   init: {
     usage: "apiko init <directory_name>\n- Creates a new directory with the specified name and downloads the Apiko starter template to it.\n- You can then navigate to it, run 'npm i' and 'npm run dev' to start Apiko in development mode.",
     handler () {
-      console.log('Initiating a new Apiko server...')
-      if (fs.existsSync(process.argv[3])) {
-        console.log('The specified directory already exists. Please try a different directory name or remove this one first.')
-        return false
-      }
+      return new Promise((resolve, reject) => {
+        console.log('Initiating a new Apiko server...')
+        if (fs.existsSync(process.argv[3])) {
+          console.log('The specified directory already exists. Please try a different directory name or remove this one first.')
+          process.exit(0)
+        }
 
-      if (!commandExists('git')) {
-        console.log('It seems like Git is not installed here. Follow these instructions: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git')
-        return false
-      }
+        if (!commandExists('git')) {
+          console.log('It seems like Git is not installed here. Follow these instructions: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git')
+          process.exit(0)
+        }
 
-      let cmd = exec('git clone https://github.com/kasp1/apiko-start.git ' + process.argv[3])
-      cmd.stderr.pipe(process.stderr)
+        let cmd = exec('git clone https://github.com/kasp1/apiko-start.git ' + process.argv[3])
+        cmd.stderr.pipe(process.stderr)
 
-      return cmd
+        cmd.on('close', (code) => {
+          resolve(code)
+        })
+      })
     }
   },
 
   setup: {
-    usage: "apiko setup <directory_name>\n- Creates a new directory with the specified name and installs and runs Apiko in it.",
+      usage: "apiko setup <directory_name>\n- Creates a new directory with the specified name and installs and runs the Apiko starter template in it.",
     handler () {
-      let init = cli.init.handler()
-
-      if (init !== false) {
-        init.on('close', (code) => {
+      return new Promise((resolve, reject) => {
+        cli.init.handler().then((code) => {
           if (code === 0) {
             console.log('Setting up a new Apiko server...')
 
@@ -46,9 +48,11 @@ let cli = {
             cmd.on('close', (code) => {
               cli.run.handler('dev')
             })
+          } else {
+            process.exit(0)
           }
         })
-      }
+      })
     }
   },
 
