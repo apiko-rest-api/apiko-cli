@@ -4,8 +4,11 @@
 global.g = global
 g.log = require('./log')
 
+g.config = {
+  verbosity: 1
+}
+
 g.cli = {
-  verbosity: 1,
   create: require('./commands/create'),
   setup: require('./commands/setup'),
   run: require('./commands/run'),
@@ -13,7 +16,7 @@ g.cli = {
 }
 
 if (process.argv.indexOf('--verbose') >= 0) {
-  g.cli.verbosity = 3
+  g.config.verbosity = 3
 }
 
 if (process.argv[2]) {

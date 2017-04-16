@@ -5,7 +5,7 @@ const exec = require('child_process').exec
 const commandExists = require('command-exists').sync
 
 module.exports = {
-  usage: "apiko create <directory_name>\n- Creates a new directory with the specified name and downloads the Apiko starter template to it.\n- You can then navigate to it, run 'npm i' and 'npm run dev' to start Apiko in development mode.",
+  usage: "apiko create <directory_name>\n- Creates a new directory with the specified name and downloads the Apiko starter template to it.\n- You can then navigate to it, run 'npm i' and 'apiko run dev' to start Apiko in development mode.",
   handler () {
     return new Promise((resolve, reject) => {
       g.log(1, 'Creating a new Apiko project...')
@@ -21,7 +21,7 @@ module.exports = {
 
       let cmd = exec('git clone https://github.com/kasp1/apiko-start.git ' + process.argv[3])
 
-      if (g.cli.verbosity >= 2) {
+      if (g.config.verbosity >= 2) {
         cmd.stdout.pipe(process.stdout)
         cmd.stderr.pipe(process.stderr)
       }

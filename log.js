@@ -21,7 +21,7 @@ const colors = require('colors/safe')
 let log = function () {
   let args = Array.prototype.slice.call(arguments)
 
-  if (args[0] <= g.cli.verbosity) {
+  if (args[0] <= g.config.verbosity) {
     //args[0] = ''
     args.splice(0, 1)
     console.log.apply(console, args)
@@ -31,7 +31,7 @@ let log = function () {
 log.w = function () {
   let args = Array.prototype.slice.call(arguments)
 
-  if (args[0] <= g.cli.verbosity) {
+  if (args[0] <= g.config.verbosity) {
     args[0] = 'Warning:'
 
     for (let i in args) {
@@ -45,7 +45,7 @@ log.w = function () {
 log.e = function () {
   let args = Array.prototype.slice.call(arguments)
 
-  if (args[0] <= g.cli.verbosity) {
+  if (args[0] <= g.config.verbosity) {
     args[0] = 'Error:'
 
     for (let i in args) {
