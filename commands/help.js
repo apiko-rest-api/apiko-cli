@@ -1,3 +1,4 @@
+'use strict'
 
 module.exports = {
   usage: "apiko help <command_name>\n- Displays help for the specified command.",

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict'
 
 global.g = global
 g.log = require('./log')

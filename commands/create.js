@@ -1,3 +1,5 @@
+'use strict'
+
 const fs = require('fs')
 const exec = require('child_process').exec
 const commandExists = require('command-exists').sync
