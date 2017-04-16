@@ -1,12 +1,18 @@
 #!/usr/bin/env node
 
 global.g = global
+g.log = require('./log')
 
 g.cli = {
-  create: require('./commands/create.js'),
-  setup: require('./commands/setup.js'),
-  run: require('./commands/run.js'),
-  help: require('./commands/help.js')
+  verbosity: 1,
+  create: require('./commands/create'),
+  setup: require('./commands/setup'),
+  run: require('./commands/run'),
+  help: require('./commands/help')
+}
+
+if (process.argv.indexOf('--verbose') >= 0) {
+  g.cli.verbosity = 3
 }
 
 if (process.argv[2]) {

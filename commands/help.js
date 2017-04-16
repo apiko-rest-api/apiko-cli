@@ -4,19 +4,19 @@ module.exports = {
   handler (command) {
     if (!command) {
       if (global.cli[process.argv[3]]) {
-        console.log(global.cli[process.argv[3]].usage)
+        g.log(global.cli[process.argv[3]].usage)
       } else {
-        console.log("Apiko CLI - makes it easy to set up a new Apiko server.")
-        console.log('')
-        console.log("apiko setup <directory_name> # to setup a new Apiko server.")
-        console.log('')
-        console.log('Other commands: ', Object.keys(global.cli).join(', '))
-        console.log("apiko help <command_name> # to read further.")
-        console.log('')
-        console.log('')
+        g.log(1, "Apiko CLI - makes it easy to set up a new Apiko project.")
+        g.log(1, '')
+        g.log(1, "apiko setup <directory_name> # to setup a new Apiko project.")
+        g.log(1, '')
+        g.log(1, 'Other commands: ', Object.keys(global.cli).join(', '))
+        g.log(1, "apiko help <command_name> # to read further.")
+        g.log(1, '')
+        g.log(1, '')
       }
     } else {
-      console.log(global.cli[command].usage)
+      g.log(1, global.cli[command].usage)
     }
   }
 }

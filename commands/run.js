@@ -10,8 +10,11 @@ module.exports = {
         global.cli.help.handler('run')
       }
     }
+    
+    g.log(1, 'Starting Apiko...')
 
     let cmd = exec('npm run ' + env)
+
     cmd.stdout.pipe(process.stdout)
     cmd.stderr.pipe(process.stderr)
   }

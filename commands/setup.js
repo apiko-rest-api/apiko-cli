@@ -5,16 +5,20 @@ module.exports = {
   usage: "apiko setup <directory_name>\n- Creates a new directory with the specified name and installs and runs the Apiko starter template in it.",
   handler () {
     return new Promise((resolve, reject) => {
-      g.cli.create.handler().then((code) => {
+      g.cli.create.handler('starter').then((code) => {
         if (code === 0) {
-          console.log('Setting up a new Apiko server...')
+          g.log(1, 'Setting up a new Apiko project...')
 
           // change to the created directory
           process.chdir(process.cwd() + path.sep + process.argv[3])
 
           // npm install
           let cmd = exec('npm install')
-          cmd.stderr.pipe(process.stderr)
+
+          if (g.cli.verbosity >= 2) {
+            cmd.stdout.pipe(process.stdout)
+            cmd.stderr.pipe(process.stderr)
+          }
 
           cmd.on('close', (code) => {
             g.cli.run.handler('dev')
