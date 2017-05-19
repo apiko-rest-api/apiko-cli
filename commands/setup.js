@@ -4,7 +4,7 @@ const exec = require('child_process').exec
 const path = require('path')
 
 module.exports = {
-  usage: "apiko setup <directory_name>\n- Creates a new directory with the specified name and installs and runs the Apiko starter project in it.",
+  usage: "apiko setup <directory_name>\n• Creates a new directory with the specified name and installs and runs the Apiko starter project in it.",
   handler () {
     return new Promise((resolve, reject) => {
       g.cli.create.handler('starter').then((code) => {

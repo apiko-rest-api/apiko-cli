@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-  usage: "apiko help <command_name>\n- Displays help for the specified command.",
+  usage: "apiko help <command_name>\n• Displays help for the specified command.",
   handler (command) {
     if (!command) {
       if (global.cli[process.argv[3]]) {

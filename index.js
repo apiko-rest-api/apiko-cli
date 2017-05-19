@@ -12,7 +12,8 @@ g.cli = {
   create: require('./commands/create'),
   setup: require('./commands/setup'),
   run: require('./commands/run'),
-  help: require('./commands/help')
+  help: require('./commands/help'),
+  templates: require('./commands/templates')
 }
 
 if (process.argv.indexOf('--verbose') >= 0) {
