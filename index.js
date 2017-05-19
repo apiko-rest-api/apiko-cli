@@ -23,7 +23,7 @@ if (process.argv[2]) {
   if (g.cli[process.argv[2]]) {
     g.cli[process.argv[2]].handler()
   } else {
-    g.cli.help.handler()
+    g.cli.run.handler(process.argv[2])
   }
 } else {
   g.cli.help.handler()
