@@ -50,9 +50,7 @@ module.exports = {
                 if (hash !== onlineFiles[onlineFile].sha) {
                   if (process.argv.indexOf('--no-update') < 0) {
                     g.log(1, 'Updating ' + onlineFiles[onlineFile].name.replace('.js', '') + '...')
-                    g.cli.templates.download(onlineFiles[onlineFile]).then(() => {
-                      resolve()
-                    })
+                    g.cli.templates.download(onlineFiles[onlineFile]).then(resolve)
                   } else {
                     g.log(1, 'Skipping update of ' + onlineFiles[onlineFile].name.replace('.js', '') + ' because of --no-update.')
                     resolve()
