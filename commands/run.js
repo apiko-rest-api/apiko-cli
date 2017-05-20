@@ -3,7 +3,7 @@
 const exec = require('child_process').exec
 
 module.exports = {
-  usage: "apiko run <config_mode>\n- Starts Apiko with your config mode specified.",
+  usage: "apiko run <config_mode>\n• Starts Apiko with your config/environment mode specified.",
   handler (env) {
     if (!env) {
       if (process.argv[3]) {

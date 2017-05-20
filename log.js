@@ -22,8 +22,7 @@ let log = function () {
   let args = Array.prototype.slice.call(arguments)
 
   if (args[0] <= g.config.verbosity) {
-    //args[0] = ''
-    args.splice(0, 1)
+    args[0] = '[APIKO-CLI]'
     console.log.apply(console, args)
   }
 }
@@ -32,7 +31,7 @@ log.w = function () {
   let args = Array.prototype.slice.call(arguments)
 
   if (args[0] <= g.config.verbosity) {
-    args[0] = 'Warning:'
+    args[0] = '[APIKO-CLI] Warning:'
 
     for (let i in args) {
       args[i] = colors.yellow(args[i])
@@ -46,7 +45,7 @@ log.e = function () {
   let args = Array.prototype.slice.call(arguments)
 
   if (args[0] <= g.config.verbosity) {
-    args[0] = 'Error:'
+    args[0] = '[APIKO-CLI] Error:'
 
     for (let i in args) {
       args[i] = colors.red(args[i])
