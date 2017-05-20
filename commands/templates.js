@@ -4,7 +4,6 @@ const exec = require('child_process').exec
 const path = require('path')
 const fs = require('fs')
 const request = require('request')
-const hasha = require('hasha')
 
 module.exports = {
   usage: "apiko templates\n- Lists the avaialbe template apps.",
@@ -20,7 +19,7 @@ module.exports = {
   update () {
     return new Promise((resolve, reject) => {
       g.log(1, 'Synchronizing the local list of templates...')
-      
+
       if (!fs.existsSync(g.cli.templates.dir)) {
         fs.mkdirSync(g.cli.templates.dir)
       }
@@ -34,13 +33,13 @@ module.exports = {
         let files = fs.readdirSync(g.cli.templates.dir)
 
         let checks = []
-  
+
         for (let onlineFile in onlineFiles) {
           if (files.indexOf(onlineFiles[onlineFile].name) >= 0) {
             checks.push(new Promise((resolve, reject) => {
               let cmd = exec('git hash-object ' + path.normalize(g.cli.templates.dir + '/' + onlineFiles[onlineFile].name))
               let hash
-              
+
               cmd.stdout.on('data', (data) => {
                 hash += data
               })
@@ -51,7 +50,9 @@ module.exports = {
                 if (hash !== onlineFiles[onlineFile].sha) {
                   if (process.argv.indexOf('--no-update') < 0) {
                     g.log(1, 'Updating ' + onlineFiles[onlineFile].name.replace('.js', '') + '...')
-                    g.cli.templates.download(onlineFiles[onlineFile]).then(() => resolve())
+                    g.cli.templates.download(onlineFiles[onlineFile]).then(() => {
+                      resolve()
+                    })
                   } else {
                     g.log(1, 'Skipping update of ' + onlineFiles[onlineFile].name.replace('.js', '') + ' because of --no-update.')
                     resolve()
@@ -59,8 +60,6 @@ module.exports = {
                 } else {
                   resolve()
                 }
-
-                resolve(code)
               })
             }))
           } else {
@@ -68,13 +67,57 @@ module.exports = {
             checks.push(g.cli.templates.download(onlineFiles[onlineFile]))
           }
         }
-        
+
         Promise.all(checks).then(() => {
-          let template
+          files = fs.readdirSync(g.cli.templates.dir)
+
+          let template, name
           for (let i in files) {
             if (files[i].indexOf('.js') >= 0) {
               template = require(path.normalize(g.cli.templates.dir + '/' + files[i]))
-              g.cli.templates.list[files[i].replace('.js', '')] = template
+              name = files[i].replace('.js', '')
+
+              if (!template.title) {
+                g.log.e(0, 'The ' + name + " template will not be available, because it is missing the 'title' property.")
+                continue
+              }
+
+              if (typeof template.title !== 'string') {
+                g.log.e(0, 'The ' + name + " template will not be available, because the 'title' property has to be a string.")
+                continue
+              }
+
+              if (!template.description) {
+                g.log.e(0, 'The ' + name + " template will not be available, because it is missing the 'description' property.")
+                continue
+              }
+
+              if (typeof template.description !== 'string') {
+                g.log.e(0, 'The ' + name + " template will not be available, because the 'description' property has to be a string.")
+                continue
+              }
+
+              if (!template.create) {
+                g.log.e(0, 'The ' + name + " template will not be available, because it is missing the 'create' function.")
+                continue
+              }
+
+              if (typeof template.create !== 'function') {
+                g.log.e(0, 'The ' + name + " template will not be available, because the 'create' property has to be a function.")
+                continue
+              }
+
+              if (!template.setup) {
+                g.log.e(0, 'The ' + name + " template will not be available, because it is missing the 'setup' function.")
+                continue
+              }
+
+              if (typeof template.setup !== 'function') {
+                g.log.e(0, 'The ' + name + " template will not be available, because the 'setup' property has to be a function.")
+                continue
+              }
+
+              g.cli.templates.list[name] = template
             }
           }
 
@@ -95,7 +138,13 @@ module.exports = {
   download (file) {
     return new Promise((resolve, reject) => {
       request({ uri: file.download_url }, (error, response, body) => {
-        fs.writeFileSync(path.normalize(g.cli.templates.dir + '/' + file.name), body)
+        let fileName = path.normalize(g.cli.templates.dir + '/' + file.name)
+
+        if (fs.existsSync(fileName)) {
+          fs.unlinkSync(fileName)
+        }
+
+        fs.writeFileSync(fileName, body)
         resolve()
       })
     })
