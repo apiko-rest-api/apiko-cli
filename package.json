@@ -22,7 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "colors": "^1.1.2",
-    "command-exists": "^1.2.2"
+    "command-exists": "^1.2.2",
+    "request": "^2.81.0"
   },
   "bugs": {
     "url": "https://github.com/apiko-rest-api/apiko-cli/issues",
