@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 'use strict'
 
+const readline = require('readline')
+
 global.g = global
 g.log = require('./log')
+g.interface = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
 
 g.config = {
   verbosity: 1

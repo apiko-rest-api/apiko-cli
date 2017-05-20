@@ -7,16 +7,12 @@ const fs = require('fs')
 module.exports = {
   usage: "apiko templates\n- Lists the avaialbe template apps.",
   dir: path.normalize(__dirname + '/../templates'),
-  list: [],
+  list: {},
   handler () {
     this.update().then(() => {
       g.log(1, 'Listing available templates...')
-
-      console.log('')
-      for (var i in g.cli.templates.list) {
-        console.log('•', g.cli.templates.list[i].title, '-', g.cli.templates.list[i].description)
-      }
-      console.log('')
+      g.cli.templates.printList()
+      process.exit(0)
     })
   },
   update () {
@@ -31,11 +27,20 @@ module.exports = {
       
       let template
       for (let i in files) {
-        template = require(path.normalize(g.cli.templates.dir + '/' + files[i]))
-        g.cli.templates.list.push(template)
+        if (files[i].indexOf('.js') >= 0) {
+          template = require(path.normalize(g.cli.templates.dir + '/' + files[i]))
+          g.cli.templates.list[files[i].replace('.js', '')] = template
+        }
       }
 
       resolve()
     })
+  },
+  printList () {
+    console.log('')
+    for (var i in g.cli.templates.list) {
+      console.log('•', g.cli.templates.list[i].title, '(' + i + ')', '-', g.cli.templates.list[i].description)
+    }
+    console.log('')
   }
 }
