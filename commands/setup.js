@@ -8,6 +8,11 @@ const fs = require('fs')
 module.exports = {
   usage: "apiko setup <directory_name>\n• Creates a new directory with the specified name and installs and runs the Apiko starter project in it.",
   handler (templateName) {
+    if (!process.argv[3]) {
+      g.cli.help.handler('setup')
+      process.exit(1)
+    }
+    
     if (fs.existsSync(process.argv[3])) {
       g.log.e(0, 'The specified directory (' + process.argv[3] + ') already exists. Please move it away first.')
       process.exit(1)

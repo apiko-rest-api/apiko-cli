@@ -8,6 +8,11 @@ module.exports = {
   usage: "apiko create <directory_name> [template_name]\n• Creates a new directory with the specified name and downloads the Apiko starter template to it.\n- You can then navigate to it, run 'npm i' and 'apiko run dev' to start Apiko in development mode.",
   handler (templateName) {
     return new Promise((resolve, reject) => {
+      if (!process.argv[3]) {
+        g.cli.help.handler('create')
+        process.exit(1)
+      }
+
       if (fs.existsSync(process.argv[3])) {
         g.log.e(0, 'The specified directory (' + process.argv[3] + ') already exists. Please move it away first.')
         process.exit(1)
